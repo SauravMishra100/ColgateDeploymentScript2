@@ -1,8 +1,9 @@
+//Initial function of the WebApp
 function doGet(e) {
+    // Reads the emails from the Whitelist sheet in the DBPiscataway spreadsheet and verifies if the current user accessing the link is on the list or not.
+    // If the user is not on the list, they will get a message saying "Access not granted"
     var whiteList = SpreadsheetApp.openById('1kfTu1iUqTYpSyhuLmeyxFKyNdkvOovw-By2e72DY8YQ').getSheetByName("Whitelist").getDataRange().getValues();
-    console.log(whiteList);
     var currentUser = new Session.getActiveUser().getEmail();
-    console.log(whiteList.includes(currentUser));
     var containsUser = false;
     for(const subList of whiteList){
       for(const indexedUser of subList){
@@ -12,11 +13,12 @@ function doGet(e) {
       }
     }
     if(containsUser){
-      return HtmlService.createHtmlOutput('WebApp')
+      return HtmlService.createHtmlOutputFromFile('WebApp')
     }
     return HtmlService.createHtmlOutputFromFile('NotOnWhitelist');
   }
   
+  //Adds the details to the Spreadsheet and also calls the email function. Automatically fills out the email of the user using the script and the time submitted.
   function AddRecord(row) {
       const user = [new Session.getActiveUser().getEmail(), new Date()];
       var id = '1kfTu1iUqTYpSyhuLmeyxFKyNdkvOovw-By2e72DY8YQ';
@@ -28,6 +30,7 @@ function doGet(e) {
     
   }
 
+//Sends the email with the details extracted from the form. 
 function sendEmail(fullRow) {
   console.log(fullRow);
     
@@ -40,6 +43,8 @@ function sendEmail(fullRow) {
     }
     recipient = recipient.filter(element => !'');
     console.log(recipient);
+    //Email template is chosen based on the deployment chosen by the user.
+    //Email templates are in the form of HTML files such as emailNewLenovo.html and existingMac.html
     if(fullRow[10] == "New User Lenovo"){
       var subject = "Your New Employee Laptop is Ready! "+fullRow[0];
       var htmlTemplate = HtmlService.createTemplateFromFile('emailNewLenovo');
