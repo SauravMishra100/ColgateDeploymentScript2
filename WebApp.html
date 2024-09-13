@@ -23,6 +23,7 @@
         border-width: 0px;
         font-family: 'Noto Sans';
         line-height: 1.5em;
+        color: #11111b;
       }
 
       input[type=text]:focus{
@@ -32,6 +33,21 @@
       select{
         font-family: 'Noto Sans';
         font-size: 1.25em;
+        color: #11111b;
+      }
+
+      input[type="button"]{
+        font-size: 1.5em;
+        padding: 1em;
+        border-radius: 12px;
+        background-color: #cdd6f4;
+        color: #11111b;
+        transition-duration: 0.3s;
+      }
+
+      input[type="button"]:hover{
+        background-color: #1e1e2e;
+        color: #cdd6f4;
       }
     </style>
     <script>
@@ -132,7 +148,7 @@
     </div>
     <div>
       <br>
-      <input type="button" value="Add" onclick="AddRow()" />
+      <input type="button" value="Add and Send" onclick="AddRow()" />
     </div>
 
     <!-- Responses displayed whether the user has correctly filled out the form or if any crucial information is missing. -->
