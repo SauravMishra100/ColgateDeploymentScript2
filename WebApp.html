@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <script>
+    function AddRow()
+    {
+      var ticketNumber = document.getElementById("ticketNumber").value;
+      var model = document.getElementById("model").value;
+      var srNumber = document.getElementById("srNumber").value;
+      var adUserName = document.getElementById("adUserName").value;
+      var initalPassword = document.getElementById("initalPassword").value;
+      var address = document.getElementById("address").value;
+      var managerEmail = document.getElementById("managerEmail").value;
+      var oktaEmail = document.getElementById("oktaEmail").value;
+      var trackingInfo = document.getElementById("trackingInfo").value;
+      var enableAccount = document.getElementById("enableAccount").value;
+      var deployType = document.getElementById("deployType").value;
+      const row = [ticketNumber, model, srNumber, adUserName, initalPassword, address, managerEmail, oktaEmail, trackingInfo, enableAccount, deployType];
+      if(row[6] == '' && row[7] == ''){
+        document.getElementById("noEmail").style.display = "block";
+        document.getElementById("success").style.display = "none";
+      } else {
+        google.script.run.AddRecord(row);
+        document.getElementById("ticketNumber").value = '';
+        document.getElementById("srNumber").value = '';
+        document.getElementById("adUserName").value = '';
+        document.getElementById("initalPassword").value = '';
+        document.getElementById("address").value = '';
+        document.getElementById("managerEmail").value = '';
+        document.getElementById("oktaEmail").value = '';
+        document.getElementById("trackingInfo").value = '';
+        document.getElementById("enableAccount").value = '';
+        document.getElementById("noEmail").style.display = "none";
+        document.getElementById("success").style.display = "block";
+      }
+    }
+
+    function clear(){
+      document.getElementById("ticketNumber").value = '';
+      document.getElementById("srNumber").value = '';
+      document.getElementById("adUserName").value = '';
+      document.getElementById("initalPassword").value = '';
+      document.getElementById("address").value = '';
+      document.getElementById("managerEmail").value = '';
+      document.getElementById("oktaEmail").value = '';
+      document.getElementById("trackingInfo").value = '';
+      document.getElementById("enableAccount").value = '';
+      document.getElementById("noEmail").style.display = "none";
+      document.getElementById("success").style.display = "none";
+    }
+    </script>
+  </head>
+  <body>
+    <h1>Laptop Deployment</h1>
+    <div>
+      <label for="ticketNumber">Ticket Number:</label>
+      <input type="text" id="ticketNumber" required/>
+
+      <label for="model">Model:</label>
+      <select id="model">
+        <option value="L13">L13</option>
+        <option value="Macbook Air">Macbook Air</option>
+        <option value="Macbook Pro">Macbook Pro</option>
+        <option value="Desktop">Desktop</option>
+        <option value="P1">P1</option>
+        <option value="T14">T14</option>
+        <option value="X13">X13</option>
+      </select>
+
+      <label for="srNumber">Serial Number:</label>
+      <input type="text" id="srNumber" required/>
+
+      <label for="adUserName">Active Directory User Name:</label>
+      <input type="text" id="adUserName" required/>
+
+      <label for="initalPassword">Initial Password:</label>
+      <input type="text" id="initalPassword" required/>
+      <br>
+      <label for="address">Address:</label>
+      <input type="text" id="address" required/>
+
+      <label for="managerEmail">Manager Email:</label>
+      <input type="text" id="managerEmail" required/>
+
+      <label for="oktaEmail">Okta Email:</label>
+      <input type="text" id="oktaEmail" required/>
+      <br>
+      <label for="trackingInfo">Tracking Information:</label>
+      <input type="text" id="trackingInfo" required/>
+
+      <label for="enableAccount">Enable Account:</label>
+      <input type="text" id="enableAccount" required/>
+
+      <label for="deployType">Deployment Type:</label>
+      <select id="deployType">
+        <option value="New User Lenovo">New User Lenovo</option>
+        <option value="Existing User Lenovo">Existing User Lenovo</option>
+        <option value="New User Mac">New User Mac</option>
+        <option value="Existing User Mac">Existing User Mac</option>
+      </select>
+
+      <input type="button" value="Add" onclick="AddRow()" />
+      <!-- <input type="button" value="Reset" onclick="clear()" /> -->
+    </div>
+    <div>
+      <p id="noEmail" style="display: none; color: red;">Please enter the manager or okta email</p>
+      <p id="success" style="display: none; color: green;">Email sent and logged!</p>
+    </div>
+  </body>
+</html>

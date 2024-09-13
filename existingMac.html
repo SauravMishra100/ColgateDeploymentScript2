@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <base target="_top">
+    </head>
+    <body>
+        <p>
+        Hello,
+            <br /><br />Good news! Your computer, <?= model ?> is ready for pickup. If you chose for the computer to be shipped to them, share the tracking information: <a href="www.ups.com/track?loc=3Den_US">UPS Website</a> and provide the tracking number listed below. <b>
+                Please forward these instructions to their personal email address so they can successfully log into their new computer <a href="https://docs.google.com/presentation/d/1hPOzB69rmeMz0AXhklunMD1kphiQPSdg4aoLIObJvxY/edit#slide=id.g11e2435c539_4_134">presentation</a></b>. 
+                You will receive a secondary email containing a temporary password ensure you share that with them. 
+                <br /><br />
+                <ul>
+                    <li>
+                        <b>
+                            <u>Shipping Address:</u>
+                        </b> <?= address ?> 
+                    </li> 
+                    <li>
+                        <b>
+                            <u>Tracking Information:</u>
+                        </b> <?= trackingInfo ?> </li> 
+                        <li>
+                            <b>
+                                <u>Serial Number:</u>
+                            </b> <?= srNumber ?> 
+                        </li> 
+                        <li>
+                            <b>
+                                <u>Company Email Address:</u>
+                            </b> <?= oktaEmail ?>
+                        </li> 
+                        <li>
+                            <b>
+                                <u>Active Directory Login Name:</u>
+                            </b> Initial Login Account: <?= adUserName ?> 
+                        </li> 
+                        <li>
+                            <b>
+                                <u>Computer Password:</u>
+                            </b>  Your Okta Password
+                        </li>
+                    </ul> 
+                    <br /><br />If you have any questions, concerns, or need software installed, please join the Virtual WCC: from Monday - Thursday 10am-11am @ meet.google.com/hpc-vcas-xih. 
+                    <br /><br />To return your old laptop please drop it of in either BGS01 or EG19 for remote users we have placed a return label inside the packing slip.Thank you for your patience. 
+                    <br /><br />*In an attempt to reduce waste, rather than throwing out old docks and chargers that may no longer be compatible with your new computer, please bring them to the eWaste collection area near the mailroom and we can recycle these products!*
+                    <br /><br />Best Regards, 
+                    <br />Your Local WCS Team
+        </p>
+    </body>
+</html>
