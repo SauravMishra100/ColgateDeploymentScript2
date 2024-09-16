@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <base target="_top">
@@ -26,9 +26,9 @@
         color: #11111b;
       }
 
-      input[type=text]:focus{
-        background-color: #cba6f7;
-      }
+            input[type="text"]:focus {
+                background-color: #cba6f7;
+            }
 
       select{
         font-family: 'Noto Sans';
@@ -49,7 +49,19 @@
         background-color: #1e1e2e;
         color: #cdd6f4;
       }
-    </style>
+
+      select {
+                font-family: "Noto Sans";
+                font-size: 1.25em;
+            }
+        </style>
+        <script>
+            // Checks to see if email is valid
+            function isValidEmail(email) {
+                // Regular expression pattern for email validation
+                const pattern =
+                    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    </script>
     <script>
     // Calls the AddRecord function in Code.js (or Code.gs if you are viewing in the Google Script editor) then clears the values for the next entry
     function AddRow()
@@ -151,10 +163,150 @@
       <input type="button" value="Add and Send" onclick="AddRow()" />
     </div>
 
-    <!-- Responses displayed whether the user has correctly filled out the form or if any crucial information is missing. -->
-    <div>
-      <p id="noEmail" style="display: none; color: #f38ba8;">Please enter the manager or okta email</p>
-      <p id="success" style="display: none; color: #a6e3a1;">Email sent and logged!</p>
-    </div>
-  </body>
+                // Use test() method to check if the email matches the pattern
+                return pattern.test(email);
+            }
+
+            // Calls the AddRecord function in Code.js (or Code.gs if you are viewing in the Google Script editor) then clears the values for the next entry
+            function AddRow() {
+                var ticketNumber =
+                    document.getElementById("ticketNumber").value;
+                var model = document.getElementById("model").value;
+                var srNumber = document.getElementById("srNumber").value;
+                var adUserName = document.getElementById("adUserName").value;
+                var initalPassword =
+                    document.getElementById("initalPassword").value;
+                var address = document.getElementById("address").value;
+                var managerEmail =
+                    document.getElementById("managerEmail").value;
+                var oktaEmail = document.getElementById("oktaEmail").value;
+                var trackingInfo = document
+                    .getElementById("trackingInfo")
+                    .value.toUpperCase();
+                var enableAccount =
+                    document.getElementById("enableAccount").value;
+                var deployType = document.getElementById("deployType").value;
+                const row = [
+                    ticketNumber,
+                    model,
+                    srNumber,
+                    adUserName,
+                    initalPassword,
+                    address,
+                    managerEmail,
+                    oktaEmail,
+                    trackingInfo,
+                    enableAccount,
+                    deployType,
+                ];
+                if (row[6] == "" && row[7] == "") {
+                    document.getElementById("noEmail").style.display = "block";
+                    document.getElementById("success").style.display = "none";
+                    document.getElementById("invalidEmail").style.display =
+                        "none";
+                } else if (isValidEmail(row[6]) || isValidEmail(row[7]))
+                ) {
+                    document.getElementById("noEmail").style.display = "none";
+                    document.getElementById("success").style.display = "none";
+                    document.getElementById("invalidEmail").style.display =
+                        "block";
+                } else {
+                    google.script.run.AddRecord(row);
+                    document.getElementById("ticketNumber").value = "";
+                    document.getElementById("srNumber").value = "";
+                    document.getElementById("adUserName").value = "";
+                    document.getElementById("initalPassword").value = "";
+                    document.getElementById("address").value = "";
+                    document.getElementById("managerEmail").value = "";
+                    document.getElementById("oktaEmail").value = "";
+                    document.getElementById("trackingInfo").value = "";
+                    document.getElementById("enableAccount").value = "";
+                    document.getElementById("noEmail").style.display = "none";
+                    document.getElementById("success").style.display = "block";
+                    document.getElementById("invalidEmail").style.display =
+                        "none";
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Laptop Deployment</h1>
+        <div>
+            <label for="ticketNumber">Ticket Number:</label>
+            <input type="text" id="ticketNumber" required />
+        </div>
+        <div>
+            <label for="model">Model:</label>
+            <select id="model">
+                <option value="L13">L13</option>
+                <option value="Macbook Air">Macbook Air</option>
+                <option value="Macbook Pro">Macbook Pro</option>
+                <option value="Desktop">Desktop</option>
+                <option value="P1">P1</option>
+                <option value="T14">T14</option>
+                <option value="X13">X13</option>
+            </select>
+        </div>
+        <div>
+            <label for="srNumber">Serial Number:</label>
+            <input type="text" id="srNumber" required />
+        </div>
+        <label for="adUserName">Active Directory User Name:</label>
+        <input type="text" id="adUserName" required />
+        <div>
+            <label for="initalPassword">Initial Password:</label>
+            <input type="text" id="initalPassword" required />
+        </div>
+        <div>
+            <label for="address">Address:</label>
+            <input type="text" id="address" required />
+        </div>
+        <div>
+            <label for="managerEmail">Manager Email:</label>
+            <input type="text" id="managerEmail" required />
+        </div>
+        <div>
+            <label for="oktaEmail">Okta Email:</label>
+            <input type="text" id="oktaEmail" required />
+        </div>
+        <div>
+            <label for="trackingInfo"
+                >Tracking Information:
+                <input type="text" id="trackingInfo" required />
+            </label>
+        </div>
+        <div>
+            <label for="enableAccount"
+                >Enable Account: <input type="text" id="enableAccount" required
+            /></label>
+        </div>
+        <div>
+            <label for="deployType">Deployment Type:</label>
+            <select id="deployType">
+                <option value="New User Lenovo">New User Lenovo</option>
+                <option value="Existing User Lenovo">
+                    Existing User Lenovo
+                </option>
+                <option value="New User Mac">New User Mac</option>
+                <option value="Existing User Mac">Existing User Mac</option>
+            </select>
+        </div>
+        <div>
+            <br />
+            <input type="button" value="Add" onclick="AddRow()" />
+        </div>
+
+        <!-- Responses displayed whether the user has correctly filled out the form or if any crucial information is missing. -->
+        <div>
+            <p id="noEmail" style="display: none; color: #f38ba8">
+                Please enter the manager or okta email
+            </p>
+            <p id="success" style="display: none; color: #a6e3a1">
+                Email sent and logged!
+            </p>
+            <p id="invalidEmail" style="display: none; color: #f38ba8">
+                Emails entered not properly formatted.
+            </p>
+        </div>
+    </body>
 </html>
