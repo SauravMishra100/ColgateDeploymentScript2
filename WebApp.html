@@ -97,7 +97,7 @@
                     document.getElementById("noEmail").style.display = "block";
                     document.getElementById("success").style.display = "none";
                     document.getElementById("invalidEmail").style.display = "none";
-                } else if (!isValidEmail(row[6]) || !isValidEmail(row[7])) {
+                } else if ((!isValidEmail(row[6]) && row[6] != "") || (!isValidEmail(row[7]) && row[7] != "")) {
                     document.getElementById("noEmail").style.display = "none";
                     document.getElementById("success").style.display = "none";
                     document.getElementById("invalidEmail").style.display = "block";
