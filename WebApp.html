@@ -13,6 +13,7 @@
     <style>
       body{
           background-color: #1e1e2e;
+          color: #cdd6f4;
       }
       h1{
         color: #cdd6f4;
@@ -76,29 +77,40 @@
       }
       .table{
         color: #cdd6f4;
+        font-family: 'Noto Sans';
+      }
+      table tbody tr:nth-child(even):hover td{
+        background-color: #45475a;
+        color: #cdd6f4;
+      }
+
+      table tbody tr:nth-child(odd):hover td {
+        background-color: #45475a;
+        color: #cdd6f4;
       }
     </style>
     <script>
       function showData(dataArray){
-        console.log(dataArray);
+        const titles = dataArray.splice(0, 1);
+        console.log(titles);
         $(document).ready(function(){
           $('#data-table').DataTable({
             data: dataArray,
 
             columns: [
-              {"title":dataArray[0][0]},
-              {"title":dataArray[0][1]},
-              {"title":dataArray[0][2]},
-              {"title":dataArray[0][3]},
-              {"title":dataArray[0][4]},
-              {"title":dataArray[0][5]},
-              {"title":dataArray[0][6]},
-              {"title":dataArray[0][7]},
-              {"title":dataArray[0][8]},
-              {"title":dataArray[0][9]},
-              {"title":dataArray[0][10]},
-              {"title":dataArray[0][11]},
-              {"title":dataArray[0][12]},
+              {"title":titles[0][0]},
+              {"title":titles[0][1]},
+              {"title":titles[0][2]},
+              {"title":titles[0][3]},
+              {"title":titles[0][4]},
+              {"title":titles[0][5]},
+              {"title":titles[0][6]},
+              {"title":titles[0][7]},
+              {"title":titles[0][8]},
+              {"title":titles[0][9]},
+              {"title":titles[0][10]},
+              {"title":titles[0][11]},
+              {"title":titles[0][12]},
               
             ]
           });
