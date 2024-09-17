@@ -1,7 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <base target="_top">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
+
     <link href='https://fonts.googleapis.com/css?family=Noto Sans' rel='stylesheet'>
     <!-- Because Google Scripts does not like me playing with external css files -->
     <style>
@@ -26,9 +32,9 @@
         color: #11111b;
       }
 
-            input[type="text"]:focus {
-                background-color: #cba6f7;
-            }
+      input[type="text"]:focus {
+        background-color: #cba6f7;
+      }
 
       select{
         font-family: 'Noto Sans';
@@ -51,15 +57,62 @@
       }
 
       select {
-                font-family: "Noto Sans";
-                font-size: 1.25em;
-            }
-        </style>
-        <script>
-            
-    </script>
+        font-family: "Noto Sans";
+        font-size: 1.25em;
+      }
+
+      .records{
+        float: right;
+        height: auto;
+        width: 70%;
+        overflow-y: scroll;
+        overflow-x: scroll;
+      }
+
+      .inputForm{
+        float: left;
+        height: auto;
+        width: 30%;
+      }
+      .table{
+        color: #cdd6f4;
+      }
+    </style>
     <script>
-      // Checks to see if email is valid
+      function showData(dataArray){
+        console.log(dataArray);
+        $(document).ready(function(){
+          $('#data-table').DataTable({
+            data: dataArray,
+
+            columns: [
+              {"title":dataArray[0][0]},
+              {"title":dataArray[0][1]},
+              {"title":dataArray[0][2]},
+              {"title":dataArray[0][3]},
+              {"title":dataArray[0][4]},
+              {"title":dataArray[0][5]},
+              {"title":dataArray[0][6]},
+              {"title":dataArray[0][7]},
+              {"title":dataArray[0][8]},
+              {"title":dataArray[0][9]},
+              {"title":dataArray[0][10]},
+              {"title":dataArray[0][11]},
+              {"title":dataArray[0][12]},
+              
+            ]
+          });
+        });
+      }   
+
+      window.onload = () =>{
+        google.script.run.withSuccessHandler(showData).getData();
+      }
+         
+      //dataArray = google.script.run.SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1kfTu1iUqTYpSyhuLmeyxFKyNdkvOovw-By2e72DY8YQ/edit").getSheetByName("Data").getDataRange().getValues();
+      //console.log(dataArray);
+      //showData(dataArray);
+    // Checks to see if email is valid
     function isValidEmail(email) {
       // Regular expression pattern for email validation
       const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -120,81 +173,87 @@
     </script>
   </head>
   <body>
-    <h1>Laptop Deployment</h1>
-    <div>
-      <label for="ticketNumber">Ticket Number:</label>
-      <input type="text" id="ticketNumber" required/>
-    </div>
-    <div>
-      <label for="model">Model:</label>
-      <select id="model">
-        <option value="L13">L13</option>
-        <option value="Macbook Air">Macbook Air</option>
-        <option value="Macbook Pro">Macbook Pro</option>
-        <option value="Desktop">Desktop</option>
-        <option value="P1">P1</option>
-        <option value="T14">T14</option>
-        <option value="X13">X13</option>
-      </select>
-    </div>
-    <div>
-      <label for="srNumber">Serial Number:</label>
-      <input type="text" id="srNumber" required/>
-    </div>
-      <label for="adUserName">Active Directory User Name:</label>
-      <input type="text" id="adUserName" required/>
-    <div>
-      <label for="initalPassword">Initial Password:</label>
-      <input type="text" id="initalPassword" required/>
-    </div>
-    <div>
-      <label for="address">Address:</label>
-      <input type="text" id="address" required/>
-    </div>
-    <div>
-      <label for="managerEmail">Manager Email:</label>
-      <input type="text" id="managerEmail" required/>
-    </div>
-    <div>
-      <label for="oktaEmail">Okta Email:</label>
-      <input type="text" id="oktaEmail" required/>
-    </div>
-    <div>
-      <label for="trackingInfo">Tracking Information: 
-        <input type="text" id="trackingInfo" required/>
-      </label>
-      
-    </div>
-    <div>
-      <label for="enableAccount">Enable Account: 
-        <input type="text" id="enableAccount" required/></label>
-      
-    </div>
-    <div>
-      <label for="deployType">Deployment Type:</label>
-      <select id="deployType">
-        <option value="New User Lenovo">New User Lenovo</option>
-        <option value="Existing User Lenovo">Existing User Lenovo</option>
-        <option value="New User Mac">New User Mac</option>
-        <option value="Existing User Mac">Existing User Mac</option>
-      </select>
-    </div>
-    <div>
-      <br>
-      <input type="button" value="Add and Send" onclick="AddRow()" />
-    </div>
+    <div class="inputForm">
+      <h1>Laptop Deployment</h1>
+      <div>
+        <label for="ticketNumber">Ticket Number:</label>
+        <input type="text" id="ticketNumber" required/>
+      </div>
+      <div>
+        <label for="model">Model:</label>
+        <select id="model">
+          <option value="L13">L13</option>
+          <option value="Macbook Air">Macbook Air</option>
+          <option value="Macbook Pro">Macbook Pro</option>
+          <option value="Desktop">Desktop</option>
+          <option value="P1">P1</option>
+          <option value="T14">T14</option>
+          <option value="X13">X13</option>
+        </select>
+      </div>
+      <div>
+        <label for="srNumber">Serial Number:</label>
+        <input type="text" id="srNumber" required/>
+      </div>
+        <label for="adUserName">Active Directory User Name:</label>
+        <input type="text" id="adUserName" required/>
+      <div>
+        <label for="initalPassword">Initial Password:</label>
+        <input type="text" id="initalPassword" required/>
+      </div>
+      <div>
+        <label for="address">Address:</label>
+        <input type="text" id="address" required/>
+      </div>
+      <div>
+        <label for="managerEmail">Manager Email:</label>
+        <input type="text" id="managerEmail" required/>
+      </div>
+      <div>
+        <label for="oktaEmail">Okta Email:</label>
+        <input type="text" id="oktaEmail" required/>
+      </div>
+      <div>
+        <label for="trackingInfo">Tracking Information: 
+          <input type="text" id="trackingInfo" required/>
+        </label>
+        
+      </div>
+      <div>
+        <label for="enableAccount">Enable Account: 
+          <input type="text" id="enableAccount" required/></label>
+        
+      </div>
+      <div>
+        <label for="deployType">Deployment Type:</label>
+        <select id="deployType">
+          <option value="New User Lenovo">New User Lenovo</option>
+          <option value="Existing User Lenovo">Existing User Lenovo</option>
+          <option value="New User Mac">New User Mac</option>
+          <option value="Existing User Mac">Existing User Mac</option>
+        </select>
+      </div>
+      <div>
+        <br>
+        <input type="button" value="Add and Send" onclick="AddRow()" />
+      </div>
 
-        <!-- Responses displayed whether the user has correctly filled out the form or if any crucial information is missing. -->
-        <div>
-            <p id="noEmail" style="display: none; color: #f38ba8">
-                Please enter the manager or okta email
-            </p>
-            <p id="success" style="display: none; color: #a6e3a1">
-                Email sent and logged!
-            </p>
-            <p id="invalidEmail" style="display: none; color: #f38ba8">
-                Emails entered not properly formatted.
-            </p>
-        </div>
-    </body>
+      <!-- Responses displayed whether the user has correctly filled out the form or if any crucial information is missing. -->
+      <div>
+          <p id="noEmail" style="display: none; color: #f38ba8">
+              Please enter the manager or okta email
+          </p>
+          <p id="success" style="display: none; color: #a6e3a1">
+              Email sent and logged!
+          </p>
+          <p id="invalidEmail" style="display: none; color: #f38ba8">
+              Emails entered not properly formatted.
+          </p>
+      </div>
+    </div>
+    <div class="records">
+      <table id="data-table" class="table table-striped table-sm table-hover table-bordered">
+    </div>
+    
+  </body>
 </html>

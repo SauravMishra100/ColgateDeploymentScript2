@@ -13,22 +13,31 @@ function doGet(e) {
       }
     }
     if(containsUser){
-      return HtmlService.createHtmlOutputFromFile('WebApp')
+      return HtmlService.createHtmlOutputFromFile('WebApp');
     }
     return HtmlService.createHtmlOutputFromFile('NotOnWhitelist');
   }
   
-  //Adds the details to the Spreadsheet and also calls the email function. Automatically fills out the email of the user using the script and the time submitted.
-  function AddRecord(row) {
-      const user = [new Session.getActiveUser().getEmail(), new Date()];
-      var id = '1kfTu1iUqTYpSyhuLmeyxFKyNdkvOovw-By2e72DY8YQ';
-      var ss= SpreadsheetApp.openById(id);
-      var webAppSheet = ss.getSheetByName("Data");
-      const fullRow = row.concat(user);
-      webAppSheet.appendRow(fullRow);
-      sendEmail(fullRow)
-    
-  }
+  function getData(){
+    var values = SpreadsheetApp.openById("1kfTu1iUqTYpSyhuLmeyxFKyNdkvOovw-By2e72DY8YQ").getSheetByName("Data").getDataRange().getValues()
+    for(var i = 1; i < values.length; i++){
+      values[i][12] = values[i][12].toLocaleString("en-US");
+    }
+    console.log(values);
+    return values;
+  }  
+
+
+//Adds the details to the Spreadsheet and also calls the email function. Automatically fills out the email of the user using the script and the time submitted.
+function AddRecord(row) {
+    const user = [new Session.getActiveUser().getEmail(), new Date()];
+    var id = '1kfTu1iUqTYpSyhuLmeyxFKyNdkvOovw-By2e72DY8YQ';
+    var ss= SpreadsheetApp.openById(id);
+    var webAppSheet = ss.getSheetByName("Data");
+    const fullRow = row.concat(user);
+    webAppSheet.appendRow(fullRow);
+    sendEmail(fullRow)
+}
 
 //Sends the email with the details extracted from the form. 
 function sendEmail(fullRow) {
