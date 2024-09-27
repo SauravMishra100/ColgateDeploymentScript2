@@ -90,6 +90,7 @@
       }
     </style>
     <script>
+      //Constructs table from spreadsheet data
       function showData(dataArray){
         const titles = dataArray.splice(0, 1);
         console.log(titles);
@@ -120,10 +121,7 @@
       window.onload = () =>{
         google.script.run.withSuccessHandler(showData).getData();
       }
-         
-      //dataArray = google.script.run.SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1kfTu1iUqTYpSyhuLmeyxFKyNdkvOovw-By2e72DY8YQ/edit").getSheetByName("Data").getDataRange().getValues();
-      //console.log(dataArray);
-      //showData(dataArray);
+      
     // Checks to see if email is valid
     function isValidEmail(email) {
       // Regular expression pattern for email validation

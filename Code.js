@@ -19,7 +19,7 @@ function doGet(e) {
   }
   
   function getData(){
-    var values = SpreadsheetApp.openById("1kfTu1iUqTYpSyhuLmeyxFKyNdkvOovw-By2e72DY8YQ").getSheetByName("Data").getDataRange().getValues()
+    var values = SpreadsheetApp.openById('1kfTu1iUqTYpSyhuLmeyxFKyNdkvOovw-By2e72DY8YQ').getSheetByName("Data").getDataRange().getValues()
     for(var i = 1; i < values.length; i++){
       values[i][12] = values[i][12].toLocaleString("en-US");
     }
@@ -57,6 +57,8 @@ function sendEmail(fullRow) {
     if(fullRow[10] == "New User Lenovo"){
       var subject = "Your New Employee Laptop is Ready! "+fullRow[0];
       var htmlTemplate = HtmlService.createTemplateFromFile('emailNewLenovo');
+      var file = DriveApp.getFileById('1at3n8uV9hJ0xnrW7JiDCzUp5ThwYBoNq');
+
 
       htmlTemplate.model = fullRow[1];
       htmlTemplate.srNumber = fullRow[2];
@@ -69,10 +71,11 @@ function sendEmail(fullRow) {
 
       var htmlForEmail = htmlTemplate.evaluate().getContent();
 
-      GmailApp.sendEmail(recipients, subject, "", {htmlBody: htmlForEmail, cc: 'tc_site_support@colpal.com'});
+      GmailApp.sendEmail(recipients, subject, "", {htmlBody: htmlForEmail, cc: 'tc_site_support@colpal.com', attachments: [file.getAs(MimeType.PDF)]});
     } else if(fullRow[10] == "Existing User Lenovo"){
       var subject = "Your New Laptop is Ready! "+fullRow[0];
       var htmlTemplate = HtmlService.createTemplateFromFile('existingLenovo');
+      var file = DriveApp.getFileById('1at3n8uV9hJ0xnrW7JiDCzUp5ThwYBoNq');
 
       htmlTemplate.model = fullRow[1];
       htmlTemplate.srNumber = fullRow[2];
@@ -85,10 +88,11 @@ function sendEmail(fullRow) {
 
       var htmlForEmail = htmlTemplate.evaluate().getContent();
 
-      GmailApp.sendEmail(recipients, subject, "", {htmlBody: htmlForEmail, cc: 'tc_site_support@colpal.com'});
+      GmailApp.sendEmail(recipients, subject, "", {htmlBody: htmlForEmail, cc: 'tc_site_support@colpal.com', attachments: [file.getAs(MimeType.PDF)]});
     } else if(fullRow[10] == "New User Mac"){
       var subject = "Your New Employee Laptop is Ready! "+fullRow[0];
       var htmlTemplate = HtmlService.createTemplateFromFile('emailNewMac');
+      var file = DriveApp.getFileById('1bQJxpcqm1EQVzUacZg58x0uAKju2cMPo');
 
       htmlTemplate.model = fullRow[1];
       htmlTemplate.srNumber = fullRow[2];
@@ -101,10 +105,11 @@ function sendEmail(fullRow) {
 
       var htmlForEmail = htmlTemplate.evaluate().getContent();
 
-      GmailApp.sendEmail(recipients, subject, "", {htmlBody: htmlForEmail, cc: 'tc_site_support@colpal.com'});
+      GmailApp.sendEmail(recipients, subject, "", {htmlBody: htmlForEmail, cc: 'tc_site_support@colpal.com', attachments: [file.getAs(MimeType.PDF)]});
     } else if(fullRow[10] == "Existing User Mac"){
       var subject = "Your New Laptop is Ready! "+fullRow[0];
       var htmlTemplate = HtmlService.createTemplateFromFile('existingMac');
+      var file = DriveApp.getFileById('1bQJxpcqm1EQVzUacZg58x0uAKju2cMPo');
 
       htmlTemplate.model = fullRow[1];
       htmlTemplate.srNumber = fullRow[2];
@@ -117,6 +122,6 @@ function sendEmail(fullRow) {
 
       var htmlForEmail = htmlTemplate.evaluate().getContent();
 
-      GmailApp.sendEmail(recipients, subject, "", {htmlBody: htmlForEmail, cc: 'tc_site_support@colpal.com'});
+      GmailApp.sendEmail(recipients, subject, "", {htmlBody: htmlForEmail, cc: 'tc_site_support@colpal.com', attachments: [file.getAs(MimeType.PDF)]});
     }
 }
