@@ -1,8 +1,13 @@
+const config = JSON.parse(PropertiesService.getScriptProperties().getProperty('CONFIG'));
+const spreadsheetId = config.spreadSheetID;
+const macPDFID = config.macDeploymentPDF;
+const lenovoPDFID = config.winDeploymentPDF;
+
 //Initial function of the WebApp
 function doGet(e) {
     // Reads the emails from the Whitelist sheet in the DBPiscataway spreadsheet and verifies if the current user accessing the link is on the list or not.
     // If the user is not on the list, they will get a message saying "Access not granted"
-    var whiteList = SpreadsheetApp.openById('1kfTu1iUqTYpSyhuLmeyxFKyNdkvOovw-By2e72DY8YQ').getSheetByName("Whitelist").getDataRange().getValues();
+    var whiteList = SpreadsheetApp.openById(spreadsheetId).getSheetByName("Whitelist").getDataRange().getValues();
     var currentUser = new Session.getActiveUser().getEmail();
     var containsUser = false;
     for(const subList of whiteList){
@@ -17,32 +22,31 @@ function doGet(e) {
     }
     return HtmlService.createHtmlOutputFromFile('NotOnWhitelist');
   }
-  
+
   function getData(){
-    var values = SpreadsheetApp.openById('1kfTu1iUqTYpSyhuLmeyxFKyNdkvOovw-By2e72DY8YQ').getSheetByName("Data").getDataRange().getValues()
+    var values = SpreadsheetApp.openById(spreadsheetId).getSheetByName("Data").getDataRange().getValues()
     for(var i = 1; i < values.length; i++){
       values[i][12] = values[i][12].toLocaleString("en-US");
     }
     console.log(values);
     return values;
-  }  
+  }
 
 
 //Adds the details to the Spreadsheet and also calls the email function. Automatically fills out the email of the user using the script and the time submitted.
 function AddRecord(row) {
     const user = [new Session.getActiveUser().getEmail(), new Date()];
-    var id = '1kfTu1iUqTYpSyhuLmeyxFKyNdkvOovw-By2e72DY8YQ';
-    var ss= SpreadsheetApp.openById(id);
+    var ss= SpreadsheetApp.openById(spreadsheetId);
     var webAppSheet = ss.getSheetByName("Data");
     const fullRow = row.concat(user);
     webAppSheet.appendRow(fullRow);
     sendEmail(fullRow)
 }
 
-//Sends the email with the details extracted from the form. 
+//Sends the email with the details extracted from the form.
 function sendEmail(fullRow) {
   console.log(fullRow);
-    
+
     var recipient = [fullRow[7],fullRow[6]];
     let recipients = [];
     for(let i = 0; i < recipient.length; i++){
@@ -57,7 +61,7 @@ function sendEmail(fullRow) {
     if(fullRow[10] == "New User Lenovo"){
       var subject = "Your New Employee Laptop is Ready! "+fullRow[0];
       var htmlTemplate = HtmlService.createTemplateFromFile('emailNewLenovo');
-      var file = DriveApp.getFileById('1at3n8uV9hJ0xnrW7JiDCzUp5ThwYBoNq');
+      var file = DriveApp.getFileById(lenovoPDFID);
 
 
       htmlTemplate.model = fullRow[1];
@@ -75,7 +79,7 @@ function sendEmail(fullRow) {
     } else if(fullRow[10] == "Existing User Lenovo"){
       var subject = "Your New Laptop is Ready! "+fullRow[0];
       var htmlTemplate = HtmlService.createTemplateFromFile('existingLenovo');
-      var file = DriveApp.getFileById('1at3n8uV9hJ0xnrW7JiDCzUp5ThwYBoNq');
+      var file = DriveApp.getFileById(lenovoPDFID);
 
       htmlTemplate.model = fullRow[1];
       htmlTemplate.srNumber = fullRow[2];
@@ -92,7 +96,7 @@ function sendEmail(fullRow) {
     } else if(fullRow[10] == "New User Mac"){
       var subject = "Your New Employee Laptop is Ready! "+fullRow[0];
       var htmlTemplate = HtmlService.createTemplateFromFile('emailNewMac');
-      var file = DriveApp.getFileById('1bQJxpcqm1EQVzUacZg58x0uAKju2cMPo');
+      var file = DriveApp.getFileById(macPDFID);
 
       htmlTemplate.model = fullRow[1];
       htmlTemplate.srNumber = fullRow[2];
@@ -109,7 +113,7 @@ function sendEmail(fullRow) {
     } else if(fullRow[10] == "Existing User Mac"){
       var subject = "Your New Laptop is Ready! "+fullRow[0];
       var htmlTemplate = HtmlService.createTemplateFromFile('existingMac');
-      var file = DriveApp.getFileById('1bQJxpcqm1EQVzUacZg58x0uAKju2cMPo');
+      var file = DriveApp.getFileById(macPDFID);
 
       htmlTemplate.model = fullRow[1];
       htmlTemplate.srNumber = fullRow[2];
