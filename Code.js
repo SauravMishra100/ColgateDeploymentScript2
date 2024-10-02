@@ -1,4 +1,5 @@
-const config = JSON.parse(PropertiesService.getScriptProperties().getProperty('CONFIG'));
+const jsonString = HtmlService.createHtmlOutputFromFile("config.json.html").getContent();
+const config = JSON.parse(jsonString);
 const spreadsheetId = config.spreadSheetID;
 const macPDFID = config.macDeploymentPDF;
 const lenovoPDFID = config.winDeploymentPDF;
