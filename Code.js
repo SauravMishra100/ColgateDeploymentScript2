@@ -6,7 +6,7 @@ const lenovoPDFID = config.winDeploymentPDF;
 
 //Initial function of the WebApp
 function doGet(e) {
-    // Reads the emails from the Whitelist sheet in the DBPiscataway spreadsheet and verifies if the current user accessing the link is on the list or not.
+    // Reads the emails from the Whitelist sheet in the spreadSheetID spreadsheet and verifies if the current user accessing the link is on the list or not.
     // If the user is not on the list, they will get a message saying "Access not granted"
     var whiteList = SpreadsheetApp.openById(spreadsheetId).getSheetByName("Whitelist").getDataRange().getValues();
     var currentUser = new Session.getActiveUser().getEmail();

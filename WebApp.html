@@ -122,64 +122,93 @@
         google.script.run.withSuccessHandler(showData).getData();
       }
       
-    // Checks to see if email is valid
-    function isValidEmail(email) {
-      // Regular expression pattern for email validation
-      const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      // Checks to see if email is valid
+      function isValidEmail(email) {
+        // Regular expression pattern for email validation
+        const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-      // Use test() method to check if the email matches the pattern
-      return pattern.test(email);
+        // Use test() method to check if the email matches the pattern
+        return pattern.test(email);
+      }
+
+      // Calls the AddRecord function in Code.js (or Code.gs if you are viewing in the Google Script editor) then clears the values for the next entry
+      function AddRow() {
+        var ticketNumber = document.getElementById("ticketNumber").value;
+        var model = document.getElementById("model").value;
+        var srNumber = document.getElementById("srNumber").value;
+        var adUserName = document.getElementById("adUserName").value;
+        var initalPassword = document.getElementById("initalPassword").value;
+        var address = document.getElementById("address").value;
+        var managerEmail = document.getElementById("managerEmail").value;
+        var oktaEmail = document.getElementById("oktaEmail").value;
+        var trackingInfo = document.getElementById("trackingInfo").value.toUpperCase();
+        var enableAccount = document.getElementById("enableAccount").value;
+        var deployType = document.getElementById("deployType").value;
+        const row = [
+          ticketNumber,
+          model,
+          srNumber,
+          adUserName,
+          initalPassword,
+          address,
+          managerEmail,
+          oktaEmail,
+          trackingInfo,
+          enableAccount,
+          deployType,
+        ];
+        if (row[6] == "" && row[7] == "") {
+          document.getElementById("noEmail").style.display = "block";
+          document.getElementById("success").style.display = "none";
+          document.getElementById("invalidEmail").style.display = "none";
+          document.getElementById("bulkSuccess").style.display = "none";
+          document.getElementById("bulkError").style.display = "none";
+        } else if ((!isValidEmail(row[6]) && row[6] != "") || (!isValidEmail(row[7]) && row[7] != "")) {
+            document.getElementById("noEmail").style.display = "none";
+            document.getElementById("success").style.display = "none";
+            document.getElementById("invalidEmail").style.display = "block";
+            document.getElementById("bulkSuccess").style.display = "none";
+            document.getElementById("bulkError").style.display = "none";
+        } else {
+            google.script.run.AddRecord(row);
+            document.getElementById("ticketNumber").value = "";
+            document.getElementById("srNumber").value = "";
+            document.getElementById("adUserName").value = "";
+            document.getElementById("initalPassword").value = "";
+            document.getElementById("address").value = "";
+            document.getElementById("managerEmail").value = "";
+            document.getElementById("oktaEmail").value = "";
+            document.getElementById("trackingInfo").value = "";
+            document.getElementById("enableAccount").value = "";
+
+            document.getElementById("noEmail").style.display = "none";
+            document.getElementById("success").style.display = "block";
+            document.getElementById("invalidEmail").style.display = "none";
+            document.getElementById("bulkSuccess").style.display = "none";
+            document.getElementById("bulkError").style.display = "none";
+        }
     }
-    // Calls the AddRecord function in Code.js (or Code.gs if you are viewing in the Google Script editor) then clears the values for the next entry
-    function AddRow() {
-                var ticketNumber = document.getElementById("ticketNumber").value;
-                var model = document.getElementById("model").value;
-                var srNumber = document.getElementById("srNumber").value;
-                var adUserName = document.getElementById("adUserName").value;
-                var initalPassword = document.getElementById("initalPassword").value;
-                var address = document.getElementById("address").value;
-                var managerEmail = document.getElementById("managerEmail").value;
-                var oktaEmail = document.getElementById("oktaEmail").value;
-                var trackingInfo = document.getElementById("trackingInfo").value.toUpperCase();
-                var enableAccount = document.getElementById("enableAccount").value;
-                var deployType = document.getElementById("deployType").value;
-                const row = [
-                    ticketNumber,
-                    model,
-                    srNumber,
-                    adUserName,
-                    initalPassword,
-                    address,
-                    managerEmail,
-                    oktaEmail,
-                    trackingInfo,
-                    enableAccount,
-                    deployType,
-                ];
-                if (row[6] == "" && row[7] == "") {
-                    document.getElementById("noEmail").style.display = "block";
-                    document.getElementById("success").style.display = "none";
-                    document.getElementById("invalidEmail").style.display = "none";
-                } else if ((!isValidEmail(row[6]) && row[6] != "") || (!isValidEmail(row[7]) && row[7] != "")) {
-                    document.getElementById("noEmail").style.display = "none";
-                    document.getElementById("success").style.display = "none";
-                    document.getElementById("invalidEmail").style.display = "block";
-                } else {
-                    google.script.run.AddRecord(row);
-                    document.getElementById("ticketNumber").value = "";
-                    document.getElementById("srNumber").value = "";
-                    document.getElementById("adUserName").value = "";
-                    document.getElementById("initalPassword").value = "";
-                    document.getElementById("address").value = "";
-                    document.getElementById("managerEmail").value = "";
-                    document.getElementById("oktaEmail").value = "";
-                    document.getElementById("trackingInfo").value = "";
-                    document.getElementById("enableAccount").value = "";
-                    document.getElementById("noEmail").style.display = "none";
-                    document.getElementById("success").style.display = "block";
-                    document.getElementById("invalidEmail").style.display = "none";
-                }
-            }
+
+    function bulkAdd() {
+      if(document.getElementById("bulkList").files.length == 0){
+        document.getElementById("bulkError").innerText = "No file uploaded";
+        document.getElementById("bulkError").style.display = "block";
+
+        document.getElementById("noEmail").style.display = "none";
+        document.getElementById("success").style.display = "none";
+        document.getElementById("invalidEmail").style.display = "none";
+        document.getElementById("bulkSuccess").style.display = "none";
+      } else {
+        console.log(document.getElementById("bulkList").files);
+        // var csvArray = document.getElementById("bulkList").files.text()
+        document.getElementById("bulkSuccess").style.display = "block";
+
+        document.getElementById("noEmail").style.display = "none";
+        document.getElementById("success").style.display = "none";
+        document.getElementById("invalidEmail").style.display = "none";
+        document.getElementById("bulkError").style.display = "none";
+      }
+    }
     </script>
   </head>
   <body>
@@ -246,6 +275,10 @@
       <div>
         <br>
         <input type="button" value="Add and Send" onclick="AddRow()" />
+        <br>
+        <br>
+        <input type="button" value="Bulk Add and Send" onclick="bulkAdd()" />
+        <input type="file" id="bulkList" accept=".csv" />
       </div>
 
       <!-- Responses displayed whether the user has correctly filled out the form or if any crucial information is missing. -->
@@ -259,6 +292,12 @@
           <p id="invalidEmail" style="display: none; color: #f38ba8">
               Emails entered not properly formatted.
           </p>
+          <p id="bulkSuccess" style="display: none; color: #a6e3a1">
+            Emails sent and logged!
+          </p>
+          <p id="bulkError" style="display: none; color: #f38ba8">
+              Bulk error
+          </p>  
       </div>
     </div>
     <div class="records">
