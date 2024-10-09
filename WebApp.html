@@ -112,16 +112,16 @@
               {"title":titles[0][10]},
               {"title":titles[0][11]},
               {"title":titles[0][12]},
-              
+
             ]
           });
         });
-      }   
+      }
 
       window.onload = () =>{
         google.script.run.withSuccessHandler(showData).getData();
       }
-      
+
       // Checks to see if email is valid
       function isValidEmail(email) {
         // Regular expression pattern for email validation
@@ -199,7 +199,19 @@
         document.getElementById("invalidEmail").style.display = "none";
         document.getElementById("bulkSuccess").style.display = "none";
       } else {
-        console.log(document.getElementById("bulkList"));
+        var file = document.getElementById("bulkList").files[0];
+        var reader = new FileReader();
+        reader.onload = function(event) {
+          var csvData = event.target.result;
+          var rowData = csvData.split('\n');
+          var csvArray = [];
+          for (var row = 0; row < rowData.length; row++) {
+            csvArray.push(rowData[row].split(','));
+          }
+          // Now csvArray is a 2D array containing the CSV data
+          // You can process this array further or pass it to another function
+        };
+        reader.readAsText(file);
         // var csvArray = document.getElementById("bulkList").files.text()
         document.getElementById("bulkSuccess").style.display = "block";
 
@@ -253,15 +265,15 @@
         <input type="text" id="oktaEmail" required/>
       </div>
       <div>
-        <label for="trackingInfo">Tracking Information: 
+        <label for="trackingInfo">Tracking Information:
           <input type="text" id="trackingInfo" required/>
         </label>
-        
+
       </div>
       <div>
-        <label for="enableAccount">Enable Account: 
+        <label for="enableAccount">Enable Account:
           <input type="text" id="enableAccount" required/></label>
-        
+
       </div>
       <div>
         <label for="deployType">Deployment Type:</label>
@@ -297,12 +309,12 @@
           </p>
           <p id="bulkError" style="display: none; color: #f38ba8">
               Bulk error
-          </p>  
+          </p>
       </div>
     </div>
     <div class="records">
       <table id="data-table" class="table table-striped table-sm table-hover table-bordered">
     </div>
-    
+
   </body>
 </html>
