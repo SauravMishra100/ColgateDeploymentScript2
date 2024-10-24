@@ -132,7 +132,7 @@
       function displaySaved(dataArray){
         var entry = document.createElement("div");
         console.log(dataArray);
-        entry.innerHTML = dataArray[0][0] + " " + dataArray[0][1] + " " + dataArray[0][2] + " " + dataArray[0][3] + " " + dataArray[0][4] + " " + dataArray[0][5] + " " + dataArray[0][6] + " " + dataArray[0][7] + " " + dataArray[0][8] + " " + dataArray[0][9] + " " + dataArray[0][10];
+        entry.innerHTML ='<input type="checkbox" value="testEntry" >' + dataArray[0][0] + " " + dataArray[0][1] + " " + dataArray[0][2] + " " + dataArray[0][3] + " " + dataArray[0][4] + " " + dataArray[0][5] + " " + dataArray[0][6] + " " + dataArray[0][7] + " " + dataArray[0][8] + " " + dataArray[0][9] + " " + dataArray[0][10] + '</input>';
         document.getElementById("saved").appendChild(entry);
       }
 
