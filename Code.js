@@ -64,7 +64,7 @@ function AddRecord(row) {
 function SaveRecord(row) {
   var ss = SpreadsheetApp.openById(spreadsheetId);
   var webAppSheet = ss.getSheetByName("Saved");
-  webAppSheet.appendRow(fullRow);
+  webAppSheet.appendRow(row);
 }
 
 //Sends the email with the details extracted from the form.
