@@ -168,3 +168,15 @@ function sendEmail(fullRow) {
     });
   }
 }
+
+function RemoveRows(rowList){
+  var savedValues = SpreadsheetApp.openById(spreadsheetId).getSheetByName("Saved");
+  var deleteCounter = 0;
+  for(let i of rowList){
+    console.log(rowList)
+    console.log(i)
+    console.log(deleteCounter);
+    savedValues.deleteRow(i-deleteCounter+1);
+    deleteCounter++;
+  }
+}

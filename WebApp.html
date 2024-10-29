@@ -137,16 +137,26 @@
 
       //Extracts data from the "Saved" sheet in the Google Sheet and displays it on the webpage
       function displaySaved(dataArray){
+        console.log(dataArray);
+        
         document.getElementById("saved").innerHTML = '';
         var entry = document.createElement("div");
         entry.innerHTML = '';
-        for(let i = 0; i < dataArray.length; i++){
-          entry.innerHTML = entry.innerHTML + '<input type="checkbox" id="entry'+i+'" value='+i+' >' + dataArray[i][0] + " " + dataArray[i][1] + " " + dataArray[i][2] + " " + dataArray[i][3] + " " + dataArray[i][4] + " " + dataArray[i][5] + " " + dataArray[i][6] + " " + dataArray[i][7] + " " + dataArray[i][8] + " " + dataArray[i][9] + " " + dataArray[i][10] + '</input>'+'<br>';
+        if(isEmpty(dataArray)){
+          entry.innerHTML = entry.innerHTML + 'No saved items';
+          document.getElementById("saved").appendChild(entry);
+        } else {
+          for(let i = 0; i < dataArray.length; i++){
+            entry.innerHTML = entry.innerHTML + '<input type="checkbox" id="entry'+i+'" value='+i+' >' + dataArray[i][0] + " " + dataArray[i][1] + " " + dataArray[i][2] + " " + dataArray[i][3] + " " + dataArray[i][4] + " " + dataArray[i][5] + " " + dataArray[i][6] + " " + dataArray[i][7] + " " + dataArray[i][8] + " " + dataArray[i][9] + " " + dataArray[i][10] + '</input>'+'<br>';
+          }
+          entry.innerHTML = entry.innerHTML + '<br><input type="button" value="Send" onclick="google.script.run.withSuccessHandler(AddSaved).getSaveData()" />'
+          document.getElementById("saved").appendChild(entry);
         }
-        entry.innerHTML = entry.innerHTML + '<br><input type="button" value="Send" onclick="google.script.run.withSuccessHandler(AddSaved).getSaveData()" />'
-        document.getElementById("saved").appendChild(entry);
       }
 
+      function isEmpty(array) {
+        return Array.isArray(array) && (array.length == 0 || array.every(isEmpty));
+      }
       // Checks to see if email is valid
       function isValidEmail(email) {
         // Regular expression pattern for email validation
@@ -263,6 +273,7 @@
         }
       }
 
+      //Fucntion looks for checked values in the saved section and batch sends the emails for each row, then removes the entries from the "saved" sheet and adds them to the "data" sheet
       function AddSaved(savedDataArray){
         console.log(savedDataArray);
         var checkedEntryIDs = [];
@@ -276,6 +287,9 @@
         for(let i of checkedEntryIDs){
           google.script.run.AddRecord(savedDataArray[i]);
         }
+
+        google.script.run.RemoveRows(checkedEntryIDs);
+        google.script.run.withSuccessHandler(displaySaved).getSaveData();
       }
     </script>
   </head>
