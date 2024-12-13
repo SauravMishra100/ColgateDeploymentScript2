@@ -235,6 +235,7 @@
         }
       }
 
+      // Calls the SaveRecord function in Code.js (or Code.gs if you are viewing in the Google Script editor) then clears the values for the next entry
       function SaveRow() {
         var ticketNumber = document.getElementById("ticketNumber").value;
         var model = document.getElementById("model").value;
@@ -309,6 +310,7 @@
     </script>
   </head>
   <body>
+    <!-- Input fields are generated here -->
     <div class="inputForm">
       <h1>Laptop Deployment</h1>
       <div>
