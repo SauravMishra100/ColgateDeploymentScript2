@@ -51,7 +51,7 @@ function getSaveData() {
   return values;
 }
 
-//Adds the details to the Spreadsheet and also calls the email function. Automatically fills out the email of the user using the script and the time submitted.
+//Adds the details to the spreadsheet in the "Data" sheet and also calls the email function. Automatically fills out the email of the user using the script and the time submitted.
 function AddRecord(row) {
   const user = [new Session.getActiveUser().getEmail(), new Date()];
   var ss = SpreadsheetApp.openById(spreadsheetId);
@@ -61,6 +61,7 @@ function AddRecord(row) {
   sendEmail(fullRow);
 }
 
+//Adds the details to the spreadsheet in the "Saved" sheet.
 function SaveRecord(row) {
   var ss = SpreadsheetApp.openById(spreadsheetId);
   var webAppSheet = ss.getSheetByName("Saved");
